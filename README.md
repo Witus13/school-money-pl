@@ -1,2 +1,4 @@
-# school-money-pl
-One of many school projects
+# School Money project
+! This project's language is Polish.
+
+
