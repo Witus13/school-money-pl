@@ -1,0 +1,93 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<link rel="import" href="/bower_components/app-toolbar/app-toolbar.html">
+<link rel="import" href="/bower_components/app-scroll-effects/app-scroll-effects.html">
+
+<link rel="import" href="paper-typography.html">
+
+<dom-module id="shell-element">
+  <template>
+    <style>
+    
+      :host {
+        display: block;
+        font-family: 'Roboto', 'Noto', sans-serif;
+      }
+      
+      app-toolbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 212px;
+        color: #fff;
+        background-color: #3f51b5;
+      }
+      
+      paper-icon-button {
+        --paper-icon-button-ink-color: white;
+      }
+      
+      app-toolbar.tall {
+        height: 148px;
+      }
+      
+      sample-content {
+        padding-top: 212px;
+      }
+      
+      [main-title] {
+        font-weight: lighter;
+        margin-left: 108px;
+      }
+      
+      [condensed-title] {
+        font-weight: lighter;
+        margin-left: 30px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      
+      [condensed-title] i {
+        font-weight: 100;
+        font-style: normal;
+      }
+      
+      @media (max-width: 639px) {
+        [main-title] {
+          margin-left: 50px;
+          font-size: 30px;
+        }
+        [condensed-title] {
+          font-size: 15px;
+        }
+      }
+      
+    </style>
+    
+    <app-header fixed condenses effects="waterfall resize-title">
+      <app-toolbar>
+        <h4 condensed-title>Szkolne pieniądze</div>
+      </app-toolbar>
+      <app-toolbar>
+        <h1 main-title>Szkolne pieniądze</h1>
+      </app-toolbar>
+    </app-header>
+    
+    <div class="controls">
+      
+    </div>
+    
+    <div class="content">
+      
+    </div>
+    
+  </template>
+  <script>
+    Polymer({
+
+      is: 'shell-element',
+
+    });
+  </script>
+</dom-module>
