@@ -1,0 +1,52 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<dom-module id="bank-note">
+  <template>
+    <style>
+    
+      
+      
+    </style>
+    
+    <div class="background"></div>
+    <div class="stroke"></div>
+    <div class="corner top left"></div>
+    <div class="corner top right"></div>
+    <div class="corner bottom left"></div>
+    <div class="corner bottom right"></div>
+    <div class="centerer">
+      <div class="circle"></div>
+      <img src="images/face-[[image]].png">
+    </div>
+    <div class="lefter">
+      <h1>[[value]]</h1>
+    </div>
+    
+  </template>
+  <script>
+    Polymer({
+
+      is: 'bank-note',
+      
+      properties: {
+        
+        value: {
+          type: Number,
+          reflectToAttribute: 'true'
+        },
+        
+        image: {
+          type: Number,
+          reflectToAttribute: 'true'
+        },
+        
+        color: {
+          type: String,
+          reflectToAttribute: 'true'
+        }
+        
+      }
+
+    });
+  </script>
+</dom-module>

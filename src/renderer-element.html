@@ -8,9 +8,7 @@
   <template>
     <style>
     
-      :host {
-        padding: 16px;
-      }
+      
       
     </style>
     
@@ -31,7 +29,16 @@
         
         controls: {
           type: Object,
-          notify: true
+          notify: true,
+          value: function() {
+            return {
+              customColor: false,
+              customImage: false,
+              image: null,
+              color: null,
+              value: 10
+            }
+          }
         }
         
       },
@@ -54,6 +61,19 @@
       
       _whatImage: function() {
         var controls = this.controls;
+        var controls = this.controls;
+        if(controls.customImage) {
+          return controls.image
+        } else {
+          var config = {
+            '10': 1,
+            '20': 2,
+            '50': 3,
+            '100': 4,
+            '200': 5
+          };
+          return config[controls.value.toString()]
+        }
       }
 
     });
