@@ -1,0 +1,61 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<!--<link rel="import" href="/bower_components/">-->
+
+<link rel="import" href="bank-note.html">
+
+<dom-module id="renderer-element">
+  <template>
+    <style>
+    
+      :host {
+        padding: 16px;
+      }
+      
+    </style>
+    
+    <!--<template is="dom-if" if="[[!controls.isCoin]]">-->
+      <bank-note value="[[controls.value]]" color="[[_whatColor(controls.*)]]" image="[[_whatImage(controls.*)]]"></bank-note>
+    <!--</template>-->
+    <!--<template is="dom-if" if="[[controls.isCoin]]">-->
+    <!--  <coin value="[[controls.value]]" color="[[_whatColor(controls.*)]]" image="[[_whatImage(controls.*)]]"></coin>-->
+    <!--</template>-->
+    
+  </template>
+  <script>
+    Polymer({
+
+      is: 'renderer-element',
+      
+      properties: {
+        
+        controls: {
+          type: Object,
+          notify: true
+        }
+        
+      },
+      
+      _whatColor: function() {
+        var controls = this.controls;
+        if(controls.customColor) {
+          return controls.color
+        } else {
+          var config = {
+            '10': 'green',
+            '20': 'red',
+            '50': 'orange',
+            '100': 'purple',
+            '200': 'blue'
+          };
+          return config[controls.value.toString()]
+        }
+      },
+      
+      _whatImage: function() {
+        var controls = this.controls;
+      }
+
+    });
+  </script>
+</dom-module>

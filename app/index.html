@@ -5,10 +5,105 @@
     <title>School money project</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-    <link rel="import" href="/src/shell-element.html">
+    <meta name="theme-color" content="#009688">
+    <script>
+      (function() {
+        'use strict';
+        window.Polymer = { dom: 'shadow' };
+        var onload = function() {
+          // For native Imports, manually fire WebComponentsReady so user code
+          // can use the same code path for native and polyfill'd imports.
+          if (!window.HTMLImports) {
+            document.dispatchEvent(
+              new CustomEvent('WebComponentsReady', {bubbles: true})
+            );
+          }
+        };
+        var webComponentsSupported = (
+          'registerElement' in document
+          && 'import' in document.createElement('link')
+          && 'content' in document.createElement('template')
+        );
+        if (!webComponentsSupported) {
+          var script = document.createElement('script');
+          script.async = true;
+          script.src = '/bower_components/webcomponentsjs/webcomponents-lite.min.js';
+          script.onload = onload;
+          document.head.appendChild(script);
+        } else {
+          onload();
+        }
+      })();
+    </script>
+    
+    <link rel="import" href="/src/elements.html">
+    <style is="custom-style">
+    
+          body {
+            margin: 0;
+            font-family: arial;
+            background-color: #eee;
+          }
+          
+          app-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 212px;
+            color: #fff;
+            background-color: #009688;
+          }
+          
+          app-toolbar.tall {
+            height: 148px;
+          }
+          
+          sample-content {
+            padding-top: 212px;
+          }
+          
+          [main-title] {
+            font-weight: lighter;
+            margin-left: 108px;
+          }
+          
+          [condensed-title] {
+            font-weight: lighter;
+            margin-left: 30px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          
+          [condensed-title] i {
+            font-weight: 100;
+            font-style: normal;
+          }
+          
+          @media (max-width: 639px) {
+            [main-title] {
+              margin-left: 50px;
+              font-size: 30px;
+            }
+          }
+      
+    </style>
   </head>
-  <body>
-    <shell-element></shell-element>
+  <body class="fullbleed" unresolved>
+    
+    <app-header condenses fixed effects="waterfall resize-title">
+      <app-toolbar>
+        <h4 condensed-title>Szkolne pieniądze</h4>
+      </app-toolbar>
+      <app-toolbar class="tall">
+        <h1 main-title>Szkolne pieniądze</h1>
+      </app-toolbar>
+    </app-header>
+  
+    <template is="dom-bind">
+      <controller-element controls="{{controls}}"></controller-element>
+      <renderer-element controls="{{controls}}"></renderer-element>
+    </template>
+    
   </body>
 </html>

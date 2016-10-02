@@ -1,0 +1,34 @@
+<link rel="import" href="/bower_components/polymer/polymer.html">
+
+<!--<link rel="import" href="/bower_components/">-->
+
+<dom-module id="controller-element">
+  <template>
+    <style>
+    
+      :host {
+        padding: 16px;
+      }
+      
+    </style>
+    
+    Hello world! Let me control you.
+    
+  </template>
+  <script>
+    Polymer({
+
+      is: 'controller-element',
+      
+      properties: {
+        
+        controls: {
+          type: Object,
+          notify: true
+        }
+        
+      }
+
+    });
+  </script>
+</dom-module>
