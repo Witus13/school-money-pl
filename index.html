@@ -27,7 +27,7 @@
         if (!webComponentsSupported) {
           var script = document.createElement('script');
           script.async = true;
-          script.src = '/bower_components/webcomponentsjs/webcomponents-lite.min.js';
+          script.src = 'bower_components/webcomponentsjs/webcomponents-lite.min.js';
           script.onload = onload;
           document.head.appendChild(script);
         } else {
@@ -37,7 +37,7 @@
     </script>
     
     <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Slab" rel="stylesheet"><!-- Doesn't work 😠 -->
-    <link rel="import" href="/src/elements.html">
+    <link rel="import" href="src/elements.html">
     <style is="custom-style">
     
           body {
