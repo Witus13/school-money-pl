@@ -13,3 +13,6 @@ This project is not going to receive any further updates after reaching the fini
 
 # Warning
 Project is made for Chrome and due to some lack of compatybility with `flexbox` + `position: absolute` on other browser this might not render fully correctly.
+
+# Play with it
+You can play with this micro-app on https://witus13.github.io/school-money-pl
