@@ -3,23 +3,129 @@
 <dom-module id="bank-note">
   <template>
     <style>
-    
       
+      :host {
+        /* From PolymerElements/iron-flex-layout */
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -ms-flex-direction: row;
+        -webkit-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+      }
+      
+      :host(.green) {
+        --primary-color: #4caf50;
+        --light-color: #a5d6a7;
+      }
+      :host(.red) {
+        --primary-color: #f44336;
+        --light-color: #ef9a9a;
+      }
+      :host(.orange) {
+        --primary-color: #ff9800;
+        --light-color: #ffcc80;
+      }
+      :host(.purple) {
+        --primary-color: #9c27b0;
+        --light-color: #ce93d8;
+      }
+      :host(.blue) {
+        --primary-color: #2196F3;
+        --light-color: #90caf9;
+      }
+      
+      .background {
+        width: 400px;
+        height: 185px;
+        background-color: var(--primary-color);
+        position: relative;
+      }
+      
+      .stroke {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        left: 10px;
+        bottom: 10px;
+        border-style: solid;
+        border-width: 5px;
+        border-color: var(--light-color);
+      }
+      
+      .corner {
+        position: absolute;
+        border-radius: 15px;
+        background-color: var(--light-color);
+        width: 55px;
+        height: 30px;
+      }
+      .corner.top {
+        top: 0px;
+        border-top-left-radius: 0px;
+        border-top-right-radius: 0px;
+      }
+      .corner.bottom {
+        bottom: 0px;
+        border-bottom-left-radius: 0px;
+        border-bottom-right-radius: 0px;
+      }
+      .corner.right {
+        right: 0px;
+        border-top-right-radius: 0px;
+        border-bottom-right-radius: 0px;
+      }
+      .corner.left {
+        left: 0px;
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+      }
+      
+      .lefter {
+        position: absolute;
+        left: 50px;
+      }
+      
+      .lefter h1, .lefter h3 {
+        display: inline;
+        font-family: 'Roboto-Slab', 'Roboto', sans-serif;
+        color: var(--light-color);
+      }
+      
+      .circle {
+        position: absolute;
+        border-style: solid;
+        border-radius: 50%;
+        border-width: 5px;
+        border-color: var(--light-color);
+        height: 116px;
+        width: 116px;
+      }
+      
+      img {
+        position: absolute;
+      }
       
     </style>
     
-    <div class="background"></div>
-    <div class="stroke"></div>
-    <div class="corner top left"></div>
-    <div class="corner top right"></div>
-    <div class="corner bottom left"></div>
-    <div class="corner bottom right"></div>
-    <div class="centerer">
-      <div class="circle"></div>
-      <img src="images/face-[[image]].png">
+    <div class="background">
+      <div class="stroke">
+        <div class="corner top left"></div>
+        <div class="corner top right"></div>
+        <div class="corner bottom left"></div>
+        <div class="corner bottom right"></div>
+      </div>
     </div>
+    <div class="circle"></div>
+    <img src="images/face-[[image]].png">
     <div class="lefter">
-      <h1>[[value]]</h1>
+      <h1>[[value]]</h1><h3>flt</h3>
     </div>
     
   </template>
@@ -42,9 +148,16 @@
         
         color: {
           type: String,
-          reflectToAttribute: 'true'
-        }
+          reflectToAttribute: 'true',
+          observer: '_colorChanged'
+         }
         
+      },
+      
+      _colorChanged: function(newValue, oldValue) {
+        this.classList.remove(oldValue);
+        this.classList.add(newValue);
+        this.updateStyles();
       }
 
     });
