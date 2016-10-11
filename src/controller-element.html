@@ -1,18 +1,119 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
-<!--<link rel="import" href="../bower_components/">-->
+<link rel="import" href="../bower_components/paper-toggle-button/paper-toggle-button.html">
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
 
 <dom-module id="controller-element">
   <template>
     <style>
     
       :host {
-        padding: 16px;
+        /* From Github - PolymerElements/paper-styles */
+        /*
+         * You can use these generic variables in your elements for easy theming.
+         * For example, if all your elements use `--primary-text-color` as its main
+         * color, then switching from a light to a dark theme is just a matter of
+         * changing the value of `--primary-text-color` in your application.
+         */
+        --primary-text-color: var(--light-theme-text-color);
+        --primary-background-color: var(--light-theme-background-color);
+        --secondary-text-color: var(--light-theme-secondary-color);
+        --disabled-text-color: var(--light-theme-disabled-color);
+        --divider-color: var(--light-theme-divider-color);
+        --error-color: #DD2C00;
+        /*
+         * Primary and accent colors. Also see color.html for more colors.
+         */
+        --primary-color: #009688;
+        --light-primary-color: #B2DFDB;
+        --dark-primary-color: #00796B;
+        --accent-color: #E040FB;
+        --light-accent-color: #EA80FC;
+        --dark-accent-color: #D500F9;
+        /*
+         * Material Design Light background theme
+         */
+        --light-theme-background-color: #ffffff;
+        --light-theme-base-color: #000000;
+        --light-theme-text-color: #212121;
+        --light-theme-secondary-color: #737373;  /* for secondary text and icons */
+        --light-theme-disabled-color: #9b9b9b;  /* disabled/hint text */
+        --light-theme-divider-color: #dbdbdb;
+        /*
+         * Material Design Dark background theme
+         */
+        --dark-theme-background-color: #212121;
+        --dark-theme-base-color: #ffffff;
+        --dark-theme-text-color: #ffffff;
+        --dark-theme-secondary-color: #bcbcbc;  /* for secondary text and icons */
+        --dark-theme-disabled-color: #646464;  /* disabled/hint text */
+        --dark-theme-divider-color: #3c3c3c;
+        /*
+         * Deprecated values because of their confusing names.
+         */
+        --text-primary-color: var(--dark-theme-text-color);
+        --default-primary-color: var(--primary-color);
+      }
+      
+      hr {
+        border-color: var(--divider-color);
+        border-width: 1px 0 0 0;
+      }
+      
+      .option-group {
+        padding: 18px;
       }
       
     </style>
     
-    Hello world! Let me control you.
+    <paper-radio-group selected="{{controls.value}}">
+      <paper-radio-button name="10">10</paper-radio-button>
+      <paper-radio-button name="20">20</paper-radio-button>
+      <paper-radio-button name="50">50</paper-radio-button>
+      <paper-radio-button name="100">100</paper-radio-button>
+      <paper-radio-button name="200">200</paper-radio-button>
+    </paper-radio-group>
+    <hr noshade>
+    <div class="option-group">
+      <paper-toggle-button checked="{{controls.customImage}}">
+        Sam ustaw zdjęcie
+      </paper-toggle-button>
+      <template is="dom-if" if="[[controls.customImage]]">
+        <paper-radio-group selected="{{controls.image}}">
+          <paper-radio-button name="1">1</paper-radio-button>
+          <paper-radio-button name="2">2</paper-radio-button>
+          <paper-radio-button name="3">3</paper-radio-button>
+          <paper-radio-button name="4">4</paper-radio-button>
+          <paper-radio-button name="5">5</paper-radio-button>
+        </paper-radio-group>
+      </template>
+    </div>
+    <hr noshade>
+    <div class="option-group">
+      <paper-toggle-button checked="{{controls.customColor}}">
+        Sam ustaw kolor
+      </paper-toggle-button>
+      <template is="dom-if" if="[[controls.customColor]]">
+        <paper-radio-group selected="{{controls.color}}">
+          <paper-radio-button name="green">Zielony</paper-radio-button>
+          <paper-radio-button name="red">Czerwony</paper-radio-button>
+          <paper-radio-button name="orange">Pomarańczowy</paper-radio-button>
+          <paper-radio-button name="purple">Fioletowy</paper-radio-button>
+          <paper-radio-button name="blue">Niebieski</paper-radio-button>
+        </paper-radio-group>
+      </template>
+    </div>
+    <!--<hr noshade>
+    <div class="option-group">
+      <paper-toggle-button checked="{{controls.customValue}}">
+        Sam ustaw wartość
+      </paper-toggle-button>
+      <template is="dom-if" if="[[controls.customValue]]">
+        <paper-input auto-validate allowed-pattern="[0-9]" no-float value="{{controls.value}}"></paper-input>
+      </template>
+    </div>-->
     
   </template>
   <script>

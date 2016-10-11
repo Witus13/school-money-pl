@@ -1,23 +1,32 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../bower_components/neon-animation/neon-animation-runner-behavior.html">
+
+<link rel="import" href="animations.html">
+
 <dom-module id="bank-note">
   <template>
     <style>
       
       :host {
+        perspective: 500px;
+        position: relative;
+        
         /* From PolymerElements/iron-flex-layout */
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -ms-flex-direction: row;
-        -webkit-flex-direction: row;
-        flex-direction: row;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
+        --flex-layout: {
+          display: -ms-flexbox;
+          display: -webkit-flex;
+          display: flex;
+          -ms-flex-direction: row;
+          -webkit-flex-direction: row;
+          flex-direction: row;
+          -ms-flex-align: center;
+          -webkit-align-items: center;
+          align-items: center;
+          -ms-flex-pack: center;
+          -webkit-justify-content: center;
+          justify-content: center;
+        };
       }
       
       :host(.green) {
@@ -41,11 +50,25 @@
         --light-color: #90caf9;
       }
       
+      #back, #front {
+        backface-visibility: hidden;
+        position: absolute;
+        width: 400px;
+        height: 185px;
+        top: 15px;
+        @apply(--flex-layout);
+      }
+      
+      .backfacing {
+        transform: rotateY(180deg);
+      }
+      
       .background {
         width: 400px;
         height: 185px;
         background-color: var(--primary-color);
         position: relative;
+        @apply(--flex-layout);
       }
       
       .stroke {
@@ -89,7 +112,13 @@
       
       .lefter {
         position: absolute;
-        left: 50px;
+        left: 40px;
+      }
+      .righter {
+        position: absolute;
+        right: 40px;
+        height: 80px;
+        width: 80px;
       }
       
       .lefter h1, .lefter h3 {
@@ -108,31 +137,77 @@
         width: 116px;
       }
       
-      img {
+      img.absolute {
         position: absolute;
+      }
+      
+      img.photo {
+        object-fit: cover;
+        border-radius: 50%;
+        min-width: 116px;
+        width: 116px;
+        height: 116px;
+        opacity: 0.5;
+      }
+      
+      #back .stroke {
+        @apply(--flex-layout);
+      }
+      
+      #back .quote {
+        padding: 15px;
+        color: var(--light-color);
+        font-family: 'Roboto';
+        font-size: 18px;
+        font-variant: small-caps;
+      }
+      #back .quote span {
+        font-family: 'Roboto';
+        font-size: 14px;
+        font-variant: normal;
+        font-style: italic;
       }
       
     </style>
     
-    <div class="background">
-      <div class="stroke">
-        <div class="corner top left"></div>
-        <div class="corner top right"></div>
-        <div class="corner bottom left"></div>
-        <div class="corner bottom right"></div>
+    <div id="front">
+      <div class="background">
+        <div class="stroke">
+          <div class="corner top left"></div>
+          <div class="corner top right"></div>
+          <div class="corner bottom left"></div>
+          <div class="corner bottom right"></div>
+        </div>
+        <div class="lefter">
+          <h1>[[value]]</h1><h3>flt</h3>
+        </div>
+        <img src="../images/symbol.svg" class="righter absolute">
+      </div>
+      <img src="../images/face-[[image]].png" class="photo absolute">
+      <div class="circle"></div>
+    </div>
+    <div id="back" class="backfacing">
+      <div class="background">
+        <div class="stroke">
+          <div class="quote">
+            [[quote]]
+            <span>~[[author]]</span>
+          </div>
+          <img src="../images/face-[[image]].png" class="photo">
+        </div>
       </div>
     </div>
-    <div class="circle"></div>
-    <img src="images/face-[[image]].png">
-    <div class="lefter">
-      <h1>[[value]]</h1><h3>flt</h3>
-    </div>
+      
     
   </template>
   <script>
     Polymer({
 
       is: 'bank-note',
+      
+      behaviors: [
+        Polymer.NeonAnimationRunnerBehavior
+      ],
       
       properties: {
         
@@ -143,21 +218,98 @@
         
         image: {
           type: Number,
-          reflectToAttribute: 'true'
+          reflectToAttribute: 'true',
+          observer: '_onImageChanged'
         },
         
         color: {
           type: String,
           reflectToAttribute: 'true',
           observer: '_colorChanged'
-         }
+        },
         
+        animationConfig: {
+          value: function() {
+            return {
+              'flip-from-1': [
+                {
+                  name: 'flip-front-animation',
+                  node: this.$.front,
+                  timing: { easing: 'cubic-bezier(.42,0,.58,1)', duration: 700 }
+                },
+                {
+                  name: 'flip-back-animation',
+                  node: this.$.back,
+                  timing: { easing: 'cubic-bezier(.42,0,.58,1)', duration: 700 }
+                },
+              ],
+              'flip-from-2': [
+                {
+                  name: 'flip-front-animation',
+                  node: this.$.back,
+                  timing: { easing: 'cubic-bezier(.42,0,.58,1)', duration: 700 }
+                },
+                {
+                  name: 'flip-back-animation',
+                  node: this.$.front,
+                  timing: { easing: 'cubic-bezier(.42,0,.58,1)', duration: 700 }
+                },
+              ]
+            }
+          }
+        }
+        
+      },
+      
+      listeners: {
+        'tap': 'flip',
+        'neon-animation-finish': '_onNeonAnimationFinish'
+      },
+      
+      flip: function() {
+        this._onSite = this._onSite || 'front';
+        if(this._onSite == 'front') {
+          this.playAnimation('flip-from-1')
+        } else {
+          this.playAnimation('flip-from-2')
+        }
       },
       
       _colorChanged: function(newValue, oldValue) {
         this.classList.remove(oldValue);
         this.classList.add(newValue);
         this.updateStyles();
+      },
+      
+      _onNeonAnimationFinish: function() {
+        if(this._onSite == 'front') {
+          this.$.front.classList.add('backfacing');
+          this.$.back.classList.remove('backfacing');
+          this._onSite = 'back';
+        } else {
+          this.$.back.classList.add('backfacing');
+          this.$.front.classList.remove('backfacing');
+          this._onSite = 'front';
+        }
+      },
+      
+      _onImageChanged: function(img) {
+        var quotes = [
+          'How well we communicate is determined not by how well we say things, but how well we are understood.',
+          'Styles come and go. Good design is a language, not a style.',
+          'Design is not just what it looks like and feels like. Design is how it works.',
+          'Everything is designed. Few things are designed well.',
+          'Everything should be made as simple as possible, but not simpler.'
+        ];
+        var authors = [
+          'Andrew Grove',
+          'Massimo Vignelli',
+          'Steve Jobs',
+          'Brian Reed',
+          'Albert Einstein'
+        ];
+        this.quote = quotes[img-1];
+        this.author = authors[img-1]
       }
 
     });
