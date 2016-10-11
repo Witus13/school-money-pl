@@ -3,7 +3,8 @@
 
 It's just one of my school projects made with Polymer 1.7, 
 with many parts from @Polymer and @PolymerElements  
-All images come from Google Search for those people and are edited in LunaPic.
+All images come from Google Search for those people and are edited in LunaPic.  
+Card flip from Supercharged.
 
 ## What is it about?
 It's an really little app that renders a bank-note based on provided conditions and controls.
